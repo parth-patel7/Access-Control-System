@@ -1,0 +1,113 @@
+Parth Patel
+
+Designed and implemented an authentication and access control (authorization) library that can be used by services that need to rely on their own set of users rather than those who have accounts on the computer.
+
+- Users, Domains (Admin, Premium subscribers, Normal subscribers etc), Type of Content (Premium, Normal), Access permissions.
+
+- Used dictionary to add and validate users, domain, type, access. Stored the data using Json.
+
+Requirements: Written and tested in Python2. It will create all the necessary files and does not require any packages to be downloaded.
+
+
+Test Cases: 
+python portal.py
+    Error: invalid number of arguments
+  
+python portal.py AddUser TEST
+    Error: invalid number of arguments
+
+python portal.py AddUser TEST 123 test
+    Error: invalid number of arguments
+
+python portal.py AddUser TEST 456
+	Success
+
+python portal.py AddUser TEST 123
+	Error: user exists
+	
+python portal.py AddUser user 456
+	Success
+	
+python portal.py AddUser TEST 456
+	Error: user exists
+	
+python portal.py AddUser "" 456
+	Error: username missing
+
+python portal.py Authenticate TEST 456
+	Success
+	
+python portal.py Authenticate TEST 789
+	Error: bad password
+	
+python portal.py Authenticate NOUSER 789
+	Error: no such user
+
+python portal.py SetDomain NOUSER ""
+	Error: missing domain
+	
+python portal.py SetDomain NOUSER 789
+	Error: no such user
+	
+python portal.py SetDomain TEST Admin
+	Success
+	
+python portal.py SetDomain TEST premium_subscribers (Domain did not exist)
+	Success
+
+python portal.py DomainInfo Admin
+	TEST
+	
+python portal.py DomainInfo Premium
+
+python portal.py DomainInfo premium_subscribers
+	TEST
+	
+python portal.py DomainInfo ""
+	Error: missing domain
+	
+python portal.py SetType hbo not_available 
+	Success
+
+python portal.py SetType disney not_available
+	Success
+
+python portal.py SetType "" not_available
+	Error: invalid arguments
+ 
+python portal.py SetType disney ""
+	Error: invalid arguments 
+
+python portal.py SetType "" ""
+	Error: invalid arguments
+
+python portal.py TypeInfo not_available  
+	hbo
+	disney
+
+python portal.py TypeInfo ""
+	Error: invalid argument
+	
+python portal.py TypeInfo doesnotexist
+
+python portal.py AddAccess delete Admin not_available
+	Success
+	
+python portal.py AddAccess delete Admin ""
+	Error - invalid arguments
+	
+python portal.py AddAccess delete "" not_available
+	Error: missing domain
+	
+python portal.py AddAccess delete "" ""
+	Error: missing Type
+	
+python portal.py AddAccess delete Admin available
+	Success
+
+python portal.py CanAccess delete TEST hbo
+	Success
+
+python portal.py CanAccess delete TEST hbo
+    Error: access denied
+
